@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import { releases } from '../../data/releases.js';
+---
+<Base title="Rilisan — Pacitan Raw" description="Katalog rilisan netlabel Pacitan Raw.">
+  <header class="top" style="padding:40px 0 24px;">
+    <div class="wrap">
+      <div class="tag">Katalog Rilisan</div>
+      <p class="sub">Rilisan dari skena bawah tanah Pacitan — diberi nomor katalog PR.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="relgrid">
+        {releases.map((r) => (
+          <a class="rel" href={`/rilis/${r.slug}/`}>
+            <span class="live" style="background:#1c1c1f;color:#b8b4ad;">{r.catalog}</span>
+            <img src={r.cover} alt={`${r.title} — ${r.artist}`} loading="lazy" referrerpolicy="no-referrer" />
+            <div class="scrim">
+              <span class="rn">{r.title}</span>
+              <span class="rt">{r.artist} · {r.year}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+</Base>

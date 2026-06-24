@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import { bands, eras } from '../data/bands.js';
+
+const initials = (name) => name.replace(/[^A-Za-z ]/g, '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '?';
+const players = bands.filter((b) => b.spotifyArtistId);
+---
+<Base title="Pacitan Raw — Netlabel Musik Bawah Tanah Pacitan">
+  <!-- TOP : logo + tagline (minimal, YNW-style) -->
+  <header class="top">
+    <div class="wrap">
+      <img class="logo" src="/img/logo-white.webp" alt="Pacitan Raw" />
+      <div class="tag">Netlabel &amp; Kolektif Musik Bawah Tanah Pacitan</div>
+      <p class="sub">
+        Punk · hardcore · greencore · akustik · noise · hip-hop dari
+        <strong>Kota 1001 Goa</strong> — dirilis lewat kolektif Bapangan Bersatu (BABE).
+      </p>
+    </div>
+  </header>
+
+  <!-- FILTER -->
+  <div class="filterbar" role="tablist" aria-label="Filter era">
+    <button class="on" data-f="all">Semua</button>
+    {eras.map((e) => <button data-f={e.key}>{e.label}</button>)}
+  </div>
+
+  <!-- RELEASE / BAND GRID (the wall) -->
+  <main id="band">
+    <div class="wrap">
+      <div class="relgrid">
+        {bands.map((b) => (
+          <a class={b.cover ? 'rel' : 'rel ph'} href={`/band/${b.slug}/`} data-era={b.era}>
+            {b.status === 'active' && <span class="live">Aktif</span>}
+            {b.cover
+              ? <img src={b.cover} alt={b.name} loading="lazy" referrerpolicy="no-referrer" />
+              : <span class="ini">{initials(b.name)}</span>}
+            <div class="scrim">
+              <span class="rn">{b.name}</span>
+              <span class="rt">{b.typeLabel} · {b.genre}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+
+  <!-- DENGAR : footer audio player (YNW signature) -->
+  <section id="dengar" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Dengarkan</h2>
+        <span class="muted">yang masih menyala di Spotify</span>
+      </div>
+      <div class="player">
+        {players.map((b) => (
+          <iframe
+            src={`https://open.spotify.com/embed/artist/${b.spotifyArtistId}?utm_source=generator&theme=0`}
+            height="352" loading="lazy"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            title={`Spotify — ${b.name}`}></iframe>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- TENTANG (story + eras, compact) -->
+  <section id="tentang" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Tentang</h2>
+        <p class="muted" style="max-width:46ch;">
+          Pacitan Raw merilis &amp; mewadahi musik bawah tanah Pacitan — dari punk &amp;
+          hardcore generasi awal sampai noise &amp; hip-hop yang aktif hari ini.
+        </p>
+      </div>
+      <div class="eras">
+        {eras.map((e, i) => (
+          <div class="era">
+            <div class="no">0{i + 1}</div>
+            <h3>{e.label}</h3>
+            <div class="sub">{e.sub}</div>
+            <p>{e.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const btns = document.querySelectorAll('.filterbar button');
+  const rels = document.querySelectorAll('.relgrid .rel');
+  btns.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      btns.forEach((b) => b.classList.remove('on'));
+      btn.classList.add('on');
+      const f = btn.getAttribute('data-f');
+      rels.forEach((r) => r.classList.toggle('hide', !(f === 'all' || r.getAttribute('data-era') === f)));
+    })
+  );
+</script>

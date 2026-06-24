@@ -1,0 +1,47 @@
+---
+import '../styles/global.css';
+const { title = 'Pacitan Raw', description = 'Netlabel & kolektif musik bawah tanah Pacitan.' } = Astro.props;
+const nav = [
+  { href: '/#band', label: 'Rilisan' },
+  { href: '/#dengar', label: 'Dengar' },
+  { href: '/#tentang', label: 'Tentang' },
+];
+---
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0c0c0d" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/img/logo-black.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="wrap">
+        <a href="/" class="brand" aria-label="Pacitan Raw — beranda"><img src="/img/logo-white.webp" alt="Pacitan Raw" class="brand-logo" /></a>
+        <div class="nav-links">
+          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        </div>
+      </div>
+    </nav>
+
+    <slot />
+
+    <footer class="footer">
+      <div class="wrap">
+        <div>
+          <img src="/img/logo-white.webp" alt="Pacitan Raw" class="footer-logo" />
+          <div>Netlabel &amp; kolektif musik bawah tanah Pacitan · Bapangan Bersatu (BABE)</div>
+        </div>
+        <div class="muted">Kota Kecil, Semangat Besar · © {new Date().getFullYear()}</div>
+      </div>
+    </footer>
+  </body>
+</html>

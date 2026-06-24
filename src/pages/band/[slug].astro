@@ -1,0 +1,156 @@
+---
+import Base from '../../layouts/Base.astro';
+import { bands } from '../../data/bands.js';
+import { releasesByArtist } from '../../data/releases.js';
+
+export function getStaticPaths() {
+  return bands.map((b) => ({ params: { slug: b.slug }, props: { band: b } }));
+}
+
+const { band } = Astro.props;
+const initials = band.name.replace(/[^A-Za-z ]/g, '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+const hasFacts = band.members.length + band.discography.length + band.influences.length > 0;
+const rels = releasesByArtist[band.slug] || [];
+const hasListen = band.spotifyArtistId || band.bandcampAlbumId || band.links.length > 0 || rels.length > 0 || (band.audio && band.audio.length > 0);
+---
+<Base title={`${band.name} — Pacitan Raw`} description={band.tagline}>
+  <section class="detail">
+    <div class="wrap">
+      <a href="/#band" class="back">&larr; Kembali ke rilisan</a>
+
+      <div class="detail-head">
+        {band.cover ? (
+          <div class="detail-cover"><img src={band.cover} alt={band.name} referrerpolicy="no-referrer" /></div>
+        ) : (
+          <div class="detail-cover ph"><span>{initials || '?'}</span></div>
+        )}
+
+        <div>
+          <span class="kicker">{band.typeLabel} · {band.location}</span>
+          <h1>{band.name}</h1>
+          <div class="pill-row">
+            <span class="tag active">{band.genre}</span>
+            {band.year > 0 && <span class="tag">est. {band.year}</span>}
+            <span class="tag">{band.status === 'active' ? 'Aktif' : 'Lawas'}</span>
+          </div>
+          <p class="detail-tagline">{band.tagline}</p>
+        </div>
+      </div>
+
+      <!-- SEJARAH -->
+      <div class="band-sec">
+        <h2 class="band-sec-label">Sejarah</h2>
+        {band.bio
+          ? <p class="bio">{band.bio}</p>
+          : <p class="nolisten">Bio belum tertulis di berkas sumber — datanya masih dikumpulkan.</p>}
+        {hasFacts && (
+          <div class="facts">
+            {band.members.length > 0 && (
+              <div class="fact"><h4>Personel</h4><ul>{band.members.map((m) => <li>{m}</li>)}</ul></div>
+            )}
+            {band.discography.length > 0 && (
+              <div class="fact"><h4>Diskografi</h4><ul>{band.discography.map((d) => <li>{d}</li>)}</ul></div>
+            )}
+            {band.influences.length > 0 && (
+              <div class="fact"><h4>Pengaruh</h4><ul>{band.influences.map((i) => <li>{i}</li>)}</ul></div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {band.gallery && band.gallery.length > 0 && (
+        <div class="band-sec">
+          <h2 class="band-sec-label">Galeri</h2>
+          <div class="gallery">
+            {band.gallery.map((src) => (
+              <a class="gitem" href={src} target="_blank" rel="noopener">
+                <img src={src} alt={band.name} loading="lazy" />
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- DENGARKAN -->
+      <div class="band-sec">
+        <h2 class="band-sec-label">Dengarkan</h2>
+        {band.audio && band.audio.length > 0 && (
+          <div class="hplayer">
+            <audio class="hp-audio" controls preload="none" src={band.audio[0].src}></audio>
+            <ol class="hp-list">
+              {band.audio.map((t) => (
+                <li>
+                  <button class="hp-track" data-src={t.src}>{t.title}</button>
+                  <a class="hp-dl" href={t.src} download aria-label="Unduh">&darr;</a>
+                </li>
+              ))}
+            </ol>
+            <p class="hp-note">Diputar penuh dari awal — bukan preview 30 detik.</p>
+          </div>
+        )}
+        {rels.length > 0 && (
+          <div class="linkbtns" style="margin-bottom:18px;">
+            {rels.map((rl) => (
+              <a class="linkbtn active" href={`/rilis/${rl.slug}/`}>{rl.catalog} · {rl.title} &rarr;</a>
+            ))}
+          </div>
+        )}
+        {band.bandcampAlbumId && (
+          <div class="embed">
+            <iframe
+              style="width:100%;height:470px;border:0;"
+              src={`https://bandcamp.com/EmbeddedPlayer/album=${band.bandcampAlbumId}/size=large/bgcol=0c0c0d/linkcol=e10600/tracklist=true/transparent=true/`}
+              seamless loading="lazy" title={`Bandcamp — ${band.name}`}>
+              <a href={band.bandcampUrl}>Album di Bandcamp</a>
+            </iframe>
+          </div>
+        )}
+        {(band.spotifyAlbumId || band.spotifyArtistId) && (
+          <div class="embed">
+            <iframe
+              src={band.spotifyAlbumId
+                ? `https://open.spotify.com/embed/album/${band.spotifyAlbumId}?utm_source=generator&theme=0`
+                : `https://open.spotify.com/embed/artist/${band.spotifyArtistId}?utm_source=generator&theme=0`}
+              height={band.spotifyAlbumId ? '420' : '352'} loading="lazy"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              title={`Spotify — ${band.name}`}></iframe>
+          </div>
+        )}
+        {band.links.length > 0 && (
+          <div class="linkbtns">
+            {band.links.map((l) => (
+              <a class={l.status === 'active' ? 'linkbtn active' : 'linkbtn'} href={l.url} target="_blank" rel="noopener">
+                {l.label} &nearr;
+              </a>
+            ))}
+          </div>
+        )}
+        {!hasListen && (
+          <p class="nolisten">Rekaman digital belum tersedia — masternya sedang dikumpulkan untuk Pacitan Raw.</p>
+        )}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.querySelectorAll(".hplayer").forEach((p) => {
+    const audio = p.querySelector(".hp-audio");
+    const tracks = Array.from(p.querySelectorAll(".hp-track"));
+    function play(i) {
+      const b = tracks[i];
+      if (!b) return;
+      const url = new URL(b.dataset.src, location.href).href;
+      if (audio.src !== url) audio.src = b.dataset.src;
+      audio.currentTime = 0;
+      audio.play();
+      tracks.forEach((x) => x.classList.remove("on"));
+      b.classList.add("on");
+    }
+    tracks.forEach((b, i) => b.addEventListener("click", () => play(i)));
+    audio.addEventListener("ended", () => {
+      const cur = tracks.findIndex((x) => x.classList.contains("on"));
+      if (cur >= 0 && tracks[cur + 1]) play(cur + 1);
+    });
+  });
+</script>

@@ -1,0 +1,78 @@
+---
+import Base from '../../layouts/Base.astro';
+import { releases } from '../../data/releases.js';
+
+export function getStaticPaths() {
+  return releases.map((r) => ({ params: { slug: r.slug }, props: { r } }));
+}
+const { r } = Astro.props;
+---
+<Base title={`${r.title} — ${r.artist} · Pacitan Raw`} description={`${r.artist} — ${r.title} (${r.year}) · ${r.catalog}`}>
+  <section class="release">
+    <div class="wrap">
+      <a href="/rilis/" class="back">&larr; Semua rilisan</a>
+
+      <div class="rel-top">
+        <div class="rel-art"><img src={r.cover} alt={`${r.title} — ${r.artist}`} referrerpolicy="no-referrer" /></div>
+        <div class="rel-head">
+          <span class="kicker">{r.catalog}</span>
+          <h1>{r.title}</h1>
+          <a href={`/band/${r.artistSlug}/`} class="rel-artist">{r.artist}</a>
+          <div class="rel-meta">
+            <span>{r.date}</span>
+            <span>{r.genre}</span>
+            <span>{r.tracks.length} lagu</span>
+          </div>
+          {r.links && r.links.length > 0 && (
+            <div class="linkbtns">
+              {r.links.map((l) => (
+                <a class={l.status === 'active' ? 'linkbtn active' : 'linkbtn'} href={l.url} target="_blank" rel="noopener">{l.label} &nearr;</a>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {(r.bandcampAlbumId || r.spotifyAlbumId || r.spotifyArtistId) && (
+        <div class="embed">
+          {r.bandcampAlbumId ? (
+            <iframe style="width:100%;height:470px;border:0;" loading="lazy" seamless
+              src={`https://bandcamp.com/EmbeddedPlayer/album=${r.bandcampAlbumId}/size=large/bgcol=0c0c0d/linkcol=e10600/tracklist=true/transparent=true/`}
+              title={`Bandcamp — ${r.title}`}><a href={r.bandcampUrl}>Album di Bandcamp</a></iframe>
+          ) : (
+            <iframe loading="lazy" height={r.spotifyAlbumId ? '420' : '352'}
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              src={r.spotifyAlbumId
+                ? `https://open.spotify.com/embed/album/${r.spotifyAlbumId}?utm_source=generator&theme=0`
+                : `https://open.spotify.com/embed/artist/${r.spotifyArtistId}?utm_source=generator&theme=0`}
+              title={`Spotify — ${r.title}`}></iframe>
+          )}
+        </div>
+      )}
+
+      <div class="band-sec">
+        <h2 class="band-sec-label">Tracklist</h2>
+        <ol class="tracklist">{r.tracks.map((t) => <li>{t}</li>)}</ol>
+      </div>
+
+      {r.liner && (
+        <div class="band-sec">
+          <h2 class="band-sec-label">Catatan</h2>
+          <p class="bio">{r.liner}</p>
+        </div>
+      )}
+
+      {r.credits && r.credits.length > 0 && (
+        <div class="band-sec">
+          <h2 class="band-sec-label">Kredit</h2>
+          <ul class="credits">{r.credits.map((c) => <li>{c}</li>)}</ul>
+        </div>
+      )}
+
+      <div class="band-sec">
+        <h2 class="band-sec-label">Lisensi</h2>
+        <p class="muted" style="max-width:60ch;">{r.license}</p>
+      </div>
+    </div>
+  </section>
+</Base>
