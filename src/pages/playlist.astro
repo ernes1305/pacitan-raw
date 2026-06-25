@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import { releases } from '../data/releases.js';
+---
+<Base title="Playlist — Pacitan Raw" description="Putar semua rilisan skena Pacitan Raw — penuh, dari awal.">
+  <header class="top" style="padding:40px 0 24px;">
+    <div class="wrap">
+      <div class="tag">Playlist</div>
+      <p class="sub">Putar semua rilisan dari skena — penuh, dari awal. Tanpa potongan.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="pl-grid">
+        {releases.map((r) => (
+          <div class="pl-card">
+            <div class="pl-head">
+              <a href={`/rilis/${r.slug}/`} class="pl-rn">{r.title}</a>
+              <span class="pl-rt">{r.artist} · {r.catalog} · {r.year}</span>
+            </div>
+            {r.bandcampAlbumId ? (
+              <iframe style="width:100%;height:340px;border:0;" loading="lazy" seamless
+                src={`https://bandcamp.com/EmbeddedPlayer/album=${r.bandcampAlbumId}/size=large/bgcol=0c0c0d/linkcol=e10600/tracklist=true/transparent=true/`}
+                title={`Bandcamp — ${r.title}`}></iframe>
+            ) : (
+              <iframe style="width:100%;border:0;" height="352" loading="lazy"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                src={r.spotifyAlbumId
+                  ? `https://open.spotify.com/embed/album/${r.spotifyAlbumId}?utm_source=generator&theme=0`
+                  : `https://open.spotify.com/embed/artist/${r.spotifyArtistId}?utm_source=generator&theme=0`}
+                title={`Spotify — ${r.title}`}></iframe>
+            )}
+          </div>
+        ))}
+      </div>
+      <p class="muted" style="font-size:0.84rem;padding-bottom:50px;">
+        * Bandcamp diputar penuh. Embed Spotify untuk pendengar yang belum login mungkin hanya preview 30 detik — buka tautan untuk full.
+      </p>
+    </div>
+  </main>
+</Base>

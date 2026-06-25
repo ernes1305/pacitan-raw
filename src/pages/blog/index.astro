@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const fmt = (d) => d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<Base title="Blog — Pacitan Raw" description="Catatan, berita & cerita dari skena bawah tanah Pacitan.">
+  <header class="top" style="padding:40px 0 24px;">
+    <div class="wrap">
+      <div class="tag">Blog</div>
+      <p class="sub">Catatan, berita &amp; cerita dari skena.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <ul class="postlist">
+        {posts.map((p) => (
+          <li>
+            <a href={`/blog/${p.slug}/`}>
+              <span class="pl-date">{fmt(p.data.date)}{p.data.author ? ` · ${p.data.author}` : ''}</span>
+              <span class="pl-title">{p.data.title}</span>
+              {p.data.description && <span class="pl-desc">{p.data.description}</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </main>
+</Base>

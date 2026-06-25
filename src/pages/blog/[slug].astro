@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((p) => ({ params: { slug: p.slug }, props: { post: p } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const fmt = (d) => d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<Base title={`${post.data.title} — Pacitan Raw`} description={post.data.description}>
+  <article class="post">
+    <div class="wrap">
+      <a href="/blog" class="back">&larr; Semua tulisan</a>
+      <span class="kicker" style="display:block;margin-top:18px;">{fmt(post.data.date)}{post.data.author ? ` · ${post.data.author}` : ''}</span>
+      <h1>{post.data.title}</h1>
+      <div class="post-body"><Content /></div>
+    </div>
+  </article>
+</Base>

@@ -257,3 +257,30 @@ section { position: relative; z-index: 2; }
 .hp-dl { color: var(--muted); text-decoration: none; padding: 2px 9px; border: 1px solid var(--line); font-size: 0.8rem; }
 .hp-dl:hover { color: var(--fg); border-color: var(--fg); }
 .hp-note { color: var(--muted); font-size: 0.78rem; margin: 10px 0 0; }
+
+/* ---------- blog ---------- */
+.post { padding: 44px 0 80px; }
+.post h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); margin: 8px 0 22px; }
+.post-body { max-width: 68ch; font-size: 1.08rem; line-height: 1.8; color: var(--fg); }
+.post-body p { margin: 0 0 1.1em; }
+.post-body h2 { font-family: var(--display); font-size: 1.9rem; margin: 1.5em 0 0.4em; }
+.post-body a { color: var(--red); text-decoration: underline; }
+.post-body ul, .post-body ol { padding-left: 22px; margin: 0 0 1.1em; }
+.post-body li { margin: 4px 0; }
+.post-body blockquote { border-left: 3px solid var(--red); padding: 4px 0 4px 16px; color: var(--muted); margin: 1.3em 0; font-style: italic; }
+.post-body strong { font-weight: 600; color: #fff; }
+.postlist { list-style: none; margin: 0; padding: 26px 0 60px; }
+.postlist li { border-bottom: 1px solid var(--line); }
+.postlist a { display: block; padding: 20px 0; }
+.postlist a:hover .pl-title { color: var(--red); }
+.pl-date { display: block; color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
+.pl-title { display: block; font-family: var(--display); font-size: 1.9rem; line-height: 1.05; margin: 5px 0; }
+.pl-desc { display: block; color: var(--muted); font-size: 0.95rem; }
+
+/* ---------- playlist page ---------- */
+.pl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 20px; padding: 30px 0 24px; }
+.pl-card { border: 1px solid var(--line); background: var(--bg-2); padding: 14px; }
+.pl-head { margin-bottom: 12px; }
+.pl-rn { font-family: var(--display); font-size: 1.45rem; line-height: 1; }
+.pl-rn:hover { color: var(--red); }
+.pl-rt { display: block; color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; margin-top: 4px; }
