@@ -283,7 +283,7 @@ export const bands = [
     location: 'Jawa Timur',
     status: 'legacy',
     cover: null,
-    tagline: 'Kota Kecil yang Tak Bernyali Kecil.',
+    tagline: 'Kota Kecil, Semangat Besar.',
     bio: 'Pacitan merupan suatu daerah pinggiran provinsi jawa timur paling ujung barat. Daerah yang berpantai dan berpegunungan terjal bahkan banyak pengunjung malas untuk berkunjung karena medan yang sulit.\nTapi jangan salah dengan persepsi akan medannya. Banyak tersimpan keindahan alam di kota kecil ini. Tidak hanya dalam panorama alam yang dimiliki kota kecil ini. Tidak sedikit karya dari penduduk kota kecil ini yang berani diadu dengan kota kota besar lainnya karena di dalamnya banyak terdapat potensi potensi baik dalam sumber daya alam ataupun sumber daya manusianya.\nDemikian sedikit pemaparan tentang Kota Kecil yang Tak Bernyali Kecil',
     members: [],
     discography: [],
