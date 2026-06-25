@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import { bands, genres } from '../data/bands.js';
+
+const initials = (name) => name.replace(/[^A-Za-z ]/g, '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '?';
+const roster = bands.filter((b) => b.slug !== 'pacitan' && b.slug !== 'babe');
+---
+<Base title="Kolektif — Pacitan Raw" description="Band, artis & profil skena bawah tanah Pacitan.">
+  <header class="top" style="padding:40px 0 22px;">
+    <div class="wrap">
+      <div class="tag">Kolektif</div>
+      <p class="sub">
+        Band, artis &amp; profil skena — klik untuk bio lengkap.
+        <a href="/blog" style="color:var(--red);">Baca juga Artikel &rarr;</a>
+      </p>
+    </div>
+  </header>
+
+  <!-- FILTER -->
+  <div class="filterbar" role="tablist" aria-label="Filter genre">
+    <button class="on" data-f="all">Semua</button>
+    {genres.map((g) => <button data-f={g.key}>{g.label}</button>)}
+  </div>
+
+  <!-- GRID -->
+  <main id="band">
+    <div class="wrap">
+      <div class="relgrid">
+        {roster.map((b) => (
+          <a class={b.cover ? 'rel' : 'rel ph'} href={`/band/${b.slug}/`} data-tag={b.tag}>
+            {b.status === 'active' && <span class="live">Aktif</span>}
+            {b.cover
+              ? <img src={b.cover} alt={b.name} loading="lazy" referrerpolicy="no-referrer" />
+              : <span class="ini">{initials(b.name)}</span>}
+            <div class="scrim">
+              <span class="rn">{b.name}</span>
+              <span class="rt">{b.typeLabel} · {b.genre}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+</Base>
+
+<script>
+  const btns = document.querySelectorAll('.filterbar button');
+  const rels = document.querySelectorAll('.relgrid .rel');
+  btns.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      btns.forEach((b) => b.classList.remove('on'));
+      btn.classList.add('on');
+      const f = btn.getAttribute('data-f');
+      rels.forEach((r) => r.classList.toggle('hide', !(f === 'all' || r.getAttribute('data-tag') === f)));
+    })
+  );
+</script>

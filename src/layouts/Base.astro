@@ -2,10 +2,9 @@
 import '../styles/global.css';
 const { title = 'Pacitan Raw', description = 'Netlabel & kolektif musik bawah tanah Pacitan.' } = Astro.props;
 const nav = [
-  { href: '/#band', label: 'Rilisan' },
-  { href: '/playlist', label: 'Playlist' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/#tentang', label: 'Tentang' },
+  { href: '/', label: 'Beranda' },
+  { href: '/kolektif', label: 'Kolektif' },
+  { href: '/rilis', label: 'Rilisan' },
 ];
 ---
 <!doctype html>
@@ -41,7 +40,12 @@ const nav = [
           <img src="/img/logo-white.webp" alt="Pacitan Raw" class="footer-logo" />
           <div>Netlabel &amp; kolektif musik bawah tanah Pacitan · Bapangan Bersatu (BABE)</div>
         </div>
-        <div class="muted">Kota Kecil, Semangat Besar · © {new Date().getFullYear()}</div>
+        <div>
+          <div class="foot-links">
+            <a href="/">Beranda</a><a href="/kolektif">Kolektif</a><a href="/rilis">Rilisan</a><a href="/playlist">Playlist</a><a href="/blog">Blog</a>
+          </div>
+          <div class="muted" style="margin-top:10px;">Kota Kecil, Semangat Besar · © {new Date().getFullYear()}</div>
+        </div>
       </div>
     </footer>
   </body>

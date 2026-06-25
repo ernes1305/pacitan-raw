@@ -1,69 +1,53 @@
 ---
 import Base from '../layouts/Base.astro';
-import { bands, eras, genres } from '../data/bands.js';
+import { bands, eras } from '../data/bands.js';
 
+const featured = ['pacitan', 'babe'].map((s) => bands.find((b) => b.slug === s)).filter(Boolean);
 const initials = (name) => name.replace(/[^A-Za-z ]/g, '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '?';
-const players = bands.filter((b) => b.spotifyArtistId);
 ---
-<Base title="Pacitan Raw — Netlabel Musik Bawah Tanah Pacitan">
-  <!-- TOP : logo + tagline (minimal, YNW-style) -->
+<Base title="Pacitan Raw — Ruang Bawah Tanah Pacitan">
+  <!-- TOP : logo + tagline -->
   <header class="top">
     <div class="wrap">
       <img class="logo" src="/img/logo-white.webp" alt="Pacitan Raw" />
-      <div class="tag">Netlabel &amp; Kolektif Musik Bawah Tanah Pacitan</div>
+      <div class="tag">Ruang Bawah Tanah Pacitan</div>
       <p class="sub">
-        Punk · hardcore · greencore · akustik · noise · hip-hop dari
-        <strong>Kota 1001 Goa</strong> — dirilis lewat kolektif Bapangan Bersatu (BABE).
+        Netlabel &amp; kolektif musik bawah tanah Pacitan — punk, hardcore, greencore,
+        akustik, noise, hip-hop dari <strong>Kota 1001 Goa</strong>.
       </p>
+      <div class="cta-row" style="justify-content:center;">
+        <a href="/kolektif" class="btn primary">Jelajahi Kolektif</a>
+        <a href="/rilis" class="btn">Dengar Rilisan</a>
+      </div>
     </div>
   </header>
 
-  <!-- FILTER -->
-  <div class="filterbar" role="tablist" aria-label="Filter genre">
-    <button class="on" data-f="all">Semua</button>
-    {genres.map((g) => <button data-f={g.key}>{g.label}</button>)}
-  </div>
-
-  <!-- RELEASE / BAND GRID (the wall) -->
-  <main id="band">
+  <!-- AKAR SKENA : Pacitan & BABE -->
+  <section class="section">
     <div class="wrap">
-      <div class="relgrid">
-        {bands.map((b) => (
-          <a class={b.cover ? 'rel' : 'rel ph'} href={`/band/${b.slug}/`} data-era={b.era} data-tag={b.tag}>
-            {b.status === 'active' && <span class="live">Aktif</span>}
+      <div class="section-head">
+        <h2>Akar Skena</h2>
+        <span class="muted">tempat &amp; kolektif yang memulai semuanya</span>
+      </div>
+      <div class="feat-grid">
+        {featured.map((b) => (
+          <a class="feat" href={`/band/${b.slug}/`}>
             {b.cover
-              ? <img src={b.cover} alt={b.name} loading="lazy" referrerpolicy="no-referrer" />
-              : <span class="ini">{initials(b.name)}</span>}
-            <div class="scrim">
-              <span class="rn">{b.name}</span>
-              <span class="rt">{b.typeLabel} · {b.genre}</span>
+              ? <div class="feat-img"><img src={b.cover} alt={b.name} loading="lazy" referrerpolicy="no-referrer" /></div>
+              : <div class="feat-img ph"><span>{initials(b.name)}</span></div>}
+            <div class="feat-body">
+              <span class="kicker">{b.typeLabel}</span>
+              <h3>{b.name}</h3>
+              <p>{b.tagline}</p>
+              <span class="feat-link">Selengkapnya &rarr;</span>
             </div>
           </a>
         ))}
       </div>
     </div>
-  </main>
-
-  <!-- DENGAR : footer audio player (YNW signature) -->
-  <section id="dengar" class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>Dengarkan</h2>
-        <span class="muted">yang masih menyala di Spotify</span>
-      </div>
-      <div class="player">
-        {players.map((b) => (
-          <iframe
-            src={`https://open.spotify.com/embed/artist/${b.spotifyArtistId}?utm_source=generator&theme=0`}
-            height="352" loading="lazy"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            title={`Spotify — ${b.name}`}></iframe>
-        ))}
-      </div>
-    </div>
   </section>
 
-  <!-- TENTANG (story + eras, compact) -->
+  <!-- TENTANG : sejarah skena -->
   <section id="tentang" class="section">
     <div class="wrap">
       <div class="section-head">
@@ -86,16 +70,3 @@ const players = bands.filter((b) => b.spotifyArtistId);
     </div>
   </section>
 </Base>
-
-<script>
-  const btns = document.querySelectorAll('.filterbar button');
-  const rels = document.querySelectorAll('.relgrid .rel');
-  btns.forEach((btn) =>
-    btn.addEventListener('click', () => {
-      btns.forEach((b) => b.classList.remove('on'));
-      btn.classList.add('on');
-      const f = btn.getAttribute('data-f');
-      rels.forEach((r) => r.classList.toggle('hide', !(f === 'all' || r.getAttribute('data-tag') === f)));
-    })
-  );
-</script>
