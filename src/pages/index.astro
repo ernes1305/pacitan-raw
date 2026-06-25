@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { bands, eras } from '../data/bands.js';
+import { bands } from '../data/bands.js';
 
 const featured = ['pacitan', 'babe'].map((s) => bands.find((b) => b.slug === s)).filter(Boolean);
 const initials = (name) => name.replace(/[^A-Za-z ]/g, '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '?';
@@ -43,26 +43,4 @@ const initials = (name) => name.replace(/[^A-Za-z ]/g, '').split(' ').filter(Boo
     </div>
   </section>
 
-  <!-- TENTANG : sejarah skena -->
-  <section id="tentang" class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>Tentang</h2>
-        <p class="muted" style="max-width:46ch;">
-          Pacitan Raw merilis &amp; mewadahi musik bawah tanah Pacitan — dari punk &amp;
-          hardcore generasi awal sampai noise &amp; hip-hop yang aktif hari ini.
-        </p>
-      </div>
-      <div class="eras">
-        {eras.map((e, i) => (
-          <div class="era">
-            <div class="no">0{i + 1}</div>
-            <h3>{e.label}</h3>
-            <div class="sub">{e.sub}</div>
-            <p>{e.desc}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
 </Base>
