@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { bands, eras } from '../data/bands.js';
+import { bands, eras, genres } from '../data/bands.js';
 
 const initials = (name) => name.replace(/[^A-Za-z ]/g, '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '?';
 const players = bands.filter((b) => b.spotifyArtistId);
@@ -19,9 +19,9 @@ const players = bands.filter((b) => b.spotifyArtistId);
   </header>
 
   <!-- FILTER -->
-  <div class="filterbar" role="tablist" aria-label="Filter era">
+  <div class="filterbar" role="tablist" aria-label="Filter genre">
     <button class="on" data-f="all">Semua</button>
-    {eras.map((e) => <button data-f={e.key}>{e.label}</button>)}
+    {genres.map((g) => <button data-f={g.key}>{g.label}</button>)}
   </div>
 
   <!-- RELEASE / BAND GRID (the wall) -->
@@ -29,7 +29,7 @@ const players = bands.filter((b) => b.spotifyArtistId);
     <div class="wrap">
       <div class="relgrid">
         {bands.map((b) => (
-          <a class={b.cover ? 'rel' : 'rel ph'} href={`/band/${b.slug}/`} data-era={b.era}>
+          <a class={b.cover ? 'rel' : 'rel ph'} href={`/band/${b.slug}/`} data-era={b.era} data-tag={b.tag}>
             {b.status === 'active' && <span class="live">Aktif</span>}
             {b.cover
               ? <img src={b.cover} alt={b.name} loading="lazy" referrerpolicy="no-referrer" />
@@ -95,7 +95,7 @@ const players = bands.filter((b) => b.spotifyArtistId);
       btns.forEach((b) => b.classList.remove('on'));
       btn.classList.add('on');
       const f = btn.getAttribute('data-f');
-      rels.forEach((r) => r.classList.toggle('hide', !(f === 'all' || r.getAttribute('data-era') === f)));
+      rels.forEach((r) => r.classList.toggle('hide', !(f === 'all' || r.getAttribute('data-tag') === f)));
     })
   );
 </script>

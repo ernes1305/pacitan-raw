@@ -11,6 +11,7 @@ const thumb = (id) => `https://drive.google.com/thumbnail?id=${id}&sz=w1000`;
 export const bands = [
   {
     slug: 'babe',
+    tag: 'Skena',
     name: 'BABE — Bapangan Bersatu',
     type: 'collective',
     typeLabel: 'Kolektif & Distro',
@@ -29,6 +30,7 @@ export const bands = [
   },
   {
     slug: 'packan-manoex',
+    tag: 'Punk',
     name: 'Packan Manoex',
     type: 'band',
     typeLabel: 'Band',
@@ -52,6 +54,7 @@ export const bands = [
   },
   {
     slug: 'chaos-suwex',
+    tag: 'Hardcore',
     name: 'Suwex',
     type: 'band',
     typeLabel: 'Band',
@@ -75,6 +78,7 @@ export const bands = [
   },
   {
     slug: 'pacitan-ranger',
+    tag: 'Hardcore',
     name: 'Pacitan Ranger',
     type: 'band',
     typeLabel: 'Band',
@@ -93,6 +97,7 @@ export const bands = [
   },
   {
     slug: 'densus-72',
+    tag: 'Akustik',
     name: 'Densus 72',
     type: 'band',
     typeLabel: 'Proyek Akustik',
@@ -111,6 +116,7 @@ export const bands = [
   },
   {
     slug: 'pkj-voice',
+    tag: 'Greencore',
     name: 'PKJ Voice',
     type: 'band',
     typeLabel: 'Band',
@@ -130,6 +136,7 @@ export const bands = [
   },
   {
     slug: 'dancing-corpse',
+    tag: 'Metal',
     name: 'Dancing Corpse',
     type: 'band',
     typeLabel: 'Band',
@@ -149,6 +156,7 @@ export const bands = [
   },
   {
     slug: 'skpk',
+    tag: 'Punk',
     name: 'SKPK',
     type: 'band',
     typeLabel: 'Band',
@@ -167,6 +175,7 @@ export const bands = [
   },
   {
     slug: 'royal-flush',
+    tag: 'Hardcore',
     name: 'Royal Flush',
     type: 'band',
     typeLabel: 'Band',
@@ -186,6 +195,7 @@ export const bands = [
   },
   {
     slug: 'jolie-slam',
+    tag: 'Hip-Hop',
     name: 'Jolie Slam',
     type: 'artist',
     typeLabel: 'Artis Solo',
@@ -205,6 +215,7 @@ export const bands = [
   },
   {
     slug: 'seakar',
+    tag: 'Noise',
     name: 'Seakar',
     type: 'artist',
     typeLabel: 'Artis Solo',
@@ -224,6 +235,7 @@ export const bands = [
   },
   {
     slug: 'bapangan-survive',
+    tag: 'Skena',
     name: 'Bapangan Survive',
     type: 'compilation',
     typeLabel: 'Babak Skena',
@@ -242,6 +254,7 @@ export const bands = [
   },
   {
     slug: 'gop-3',
+    tag: 'Skena',
     name: 'Gemuruh Ombak Pacitan #3',
     type: 'event',
     typeLabel: 'Event / Gig',
@@ -260,6 +273,7 @@ export const bands = [
   },
   {
     slug: 'pacitan',
+    tag: 'Skena',
     name: 'Pacitan',
     type: 'place',
     typeLabel: 'Kota',
@@ -315,6 +329,17 @@ export const compilation = {
     },
   ],
 };
+
+export const genres = [
+  { key: 'Punk', label: 'PUNK' },
+  { key: 'Hardcore', label: 'HARDCORE' },
+  { key: 'Greencore', label: 'GREENCORE' },
+  { key: 'Metal', label: 'METAL' },
+  { key: 'Akustik', label: 'AKUSTIK' },
+  { key: 'Noise', label: 'NOISE' },
+  { key: 'Hip-Hop', label: 'HIP-HOP' },
+  { key: 'Skena', label: 'SKENA' },
+];
 
 export const eras = [
   { key: 'akar', label: 'AKAR', sub: '2007–2013', desc: 'Asal mula — pelopor punk & underground.' },
