@@ -14,7 +14,7 @@ export const bands = [
     tag: 'Skena',
     name: 'BABE — Bapangan Bersatu',
     type: 'collective',
-    typeLabel: 'Kolektif & Distro',
+    typeLabel: 'Kolektif',
     genre: 'Kolektif',
     era: 'akar',
     year: 2007,
