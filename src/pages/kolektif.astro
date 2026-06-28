@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { bands, genres } from '../data/bands.js';
+import { bands } from '../data/bands.js';
 
 const initials = (name) => name.replace(/[^A-Za-z ]/g, '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '?';
 const roster = bands.filter((b) => b.slug !== 'pacitan' && b.slug !== 'babe');
@@ -15,12 +15,6 @@ const roster = bands.filter((b) => b.slug !== 'pacitan' && b.slug !== 'babe');
       </p>
     </div>
   </header>
-
-  <!-- FILTER -->
-  <div class="filterbar" role="tablist" aria-label="Filter genre">
-    <button class="on" data-f="all">Semua</button>
-    {genres.map((g) => <button data-f={g.key}>{g.label}</button>)}
-  </div>
 
   <!-- GRID -->
   <main id="band">
@@ -42,16 +36,3 @@ const roster = bands.filter((b) => b.slug !== 'pacitan' && b.slug !== 'babe');
     </div>
   </main>
 </Base>
-
-<script>
-  const btns = document.querySelectorAll('.filterbar button');
-  const rels = document.querySelectorAll('.relgrid .rel');
-  btns.forEach((btn) =>
-    btn.addEventListener('click', () => {
-      btns.forEach((b) => b.classList.remove('on'));
-      btn.classList.add('on');
-      const f = btn.getAttribute('data-f');
-      rels.forEach((r) => r.classList.toggle('hide', !(f === 'all' || r.getAttribute('data-tag') === f)));
-    })
-  );
-</script>
